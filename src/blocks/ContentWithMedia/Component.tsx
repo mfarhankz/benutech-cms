@@ -11,7 +11,7 @@ export const ContentWithMediaBlock: React.FC<ContentWithMediaBlockProps> = (prop
   const { columns } = props
 
   return (
-    <div className="container my-16">
+    <div className="container">
       {columns &&
         columns.length > 0 &&
         columns.map((col, index) => {
