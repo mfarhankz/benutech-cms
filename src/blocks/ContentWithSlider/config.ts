@@ -7,10 +7,44 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-export const ContentWithMedia: Block = {
-  slug: 'contentWithMedia',
-  interfaceName: 'ContentWithMediaBlock',
+export const ContentWithSlider: Block = {
+  slug: 'contentWithSlider',
+  interfaceName: 'ContentWithSliderBlock',
+  dbName: 'content_slider',
   fields: [
+    {
+      name: 'heading',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ]
+        },
+      }),
+      label: 'Heading',
+    },
+    {
+      type: 'radio',
+      name: 'sliderType',
+      options: [
+        {
+          label: 'Only Text',
+          value: 'onlyText',
+        },
+        {
+          label: 'OnlyImage',
+          value: 'onlyImage',
+        },
+        {
+          label: 'Both',
+          value: 'both',
+        },
+      ],
+    },
     {
       name: 'columns',
       type: 'array',
@@ -35,13 +69,11 @@ export const ContentWithMedia: Block = {
           name: 'logo',
           type: 'upload',
           relationTo: 'media',
-          required: true,
         },
         {
           name: 'media',
           type: 'upload',
           relationTo: 'media',
-          required: true,
         },
         {
           name: 'enableLink',

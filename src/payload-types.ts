@@ -191,7 +191,15 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | ContentWithMediaBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | ContentWithMediaBlock
+    | ContentWithSliderBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -788,6 +796,74 @@ export interface ContentWithMediaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentWithSliderBlock".
+ */
+export interface ContentWithSliderBlock {
+  heading?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  sliderType?: ('onlyText' | 'onlyImage' | 'both') | null;
+  columns?:
+    | {
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        logo?: (number | null) | Media;
+        media?: (number | null) | Media;
+        enableLink?: boolean | null;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        textPosition?: ('left' | 'right') | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contentWithSlider';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1078,6 +1154,7 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         contentWithMedia?: T | ContentWithMediaBlockSelect<T>;
+        contentWithSlider?: T | ContentWithSliderBlockSelect<T>;
       };
   meta?:
     | T
@@ -1182,6 +1259,36 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "ContentWithMediaBlock_select".
  */
 export interface ContentWithMediaBlockSelect<T extends boolean = true> {
+  columns?:
+    | T
+    | {
+        content?: T;
+        logo?: T;
+        media?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        textPosition?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentWithSliderBlock_select".
+ */
+export interface ContentWithSliderBlockSelect<T extends boolean = true> {
+  heading?: T;
+  sliderType?: T;
   columns?:
     | T
     | {
