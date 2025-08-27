@@ -24,10 +24,10 @@ export const ContentWithMediaBlock: React.FC<ContentWithMediaBlockProps> = (prop
                 })}
                 key={index}
               >
-                {logo && <Media imgClassName={cn()} resource={logo} className="mb-5" />}
+                {logo && <Media imgClassName={cn()} resource={logo} className="mb-5 w-[50%]" />}
                 {content && <RichText data={content} enableGutter={false} />}
 
-                {enableLink && <CMSLink {...link} className="w-fit" />}
+                {enableLink && <CMSLink {...link} className="w-fit mt-4" />}
               </div>
               <div
                 className={cn({

@@ -19,54 +19,62 @@ export const ContentWithSliderBlock: React.FC<ContentWithSliderBlockProps> = (pr
   const { columns, heading, sliderType } = props
 
   return (
-    <div className="container">
-      {heading && <RichText data={heading} enableGutter={false} />}
-      <Carousel className="w-full">
-        <CarouselContent>
-          {columns?.map((col, index) => {
-            const { enableLink, media, content, textPosition, logo, link } = col
-            return (
-              <CarouselItem key={index}>
-                <div
-                  className={cn('grid gap-y-8 gap-x-16 py-12 px-20', {
-                    'grid-cols-2': sliderType === 'both',
-                    'grid-cols-1': sliderType !== 'both',
-                  })}
-                >
+    <div
+      className={cn('container-fluid', {
+        'bg-slate-50': sliderType === 'onlyImage',
+        'bg-[#1c2431] !text-white': sliderType === 'onlyText',
+        'bg-white': sliderType === 'both',
+      })}
+    >
+      <div className="container py-16 text-center">
+        {heading && <RichText data={heading} enableGutter={false} />}
+        <Carousel className="w-full">
+          <CarouselContent>
+            {columns?.map((col, index) => {
+              const { enableLink, media, content, textPosition, logo, link } = col
+              return (
+                <CarouselItem key={index}>
                   <div
-                    className={cn('flex flex-col justify-center', {
-                      'order-1': textPosition === 'right',
-                      'text-center': sliderType === 'onlyText',
+                    className={cn('grid gap-y-8 gap-x-16 py-12 px-20', {
+                      'grid-cols-2': sliderType === 'both',
+                      'grid-cols-1': sliderType !== 'both',
                     })}
-                    key={index}
                   >
-                    {logo && <Media imgClassName={cn()} resource={logo} className="mb-5" />}
-                    {content && <RichText data={content} enableGutter={false} />}
+                    <div
+                      className={cn('flex flex-col justify-center text-left', {
+                        'order-1': textPosition === 'right',
+                        'text-center': sliderType === 'onlyText',
+                      })}
+                      key={`text-${index}`}
+                    >
+                      {logo && <Media imgClassName={cn()} resource={logo} className="mb-5" />}
+                      {content && <RichText data={content} enableGutter={false} />}
 
-                    {enableLink && <CMSLink {...link} className="w-fit" />}
+                      {enableLink && <CMSLink {...link} className="w-fit mt-4" />}
+                    </div>
+                    <div
+                      className={cn({
+                        'order-2': textPosition === 'left',
+                        'flex justify-center items-center': sliderType === 'onlyImage',
+                      })}
+                      key={`media-${index}`}
+                    >
+                      {media && (
+                        <Media
+                          imgClassName={cn('border border-border rounded-[0.8rem]')}
+                          resource={media}
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div
-                    className={cn({
-                      'order-2': textPosition === 'left',
-                      'flex justify-center items-center': sliderType === 'onlyImage',
-                    })}
-                    key={index}
-                  >
-                    {media && (
-                      <Media
-                        imgClassName={cn('border border-border rounded-[0.8rem]')}
-                        resource={media}
-                      />
-                    )}
-                  </div>
-                </div>
-              </CarouselItem>
-            )
-          })}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+                </CarouselItem>
+              )
+            })}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
     </div>
   )
 }
