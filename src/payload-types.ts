@@ -832,6 +832,7 @@ export interface ContentWithSliderBlock {
           };
           [k: string]: unknown;
         } | null;
+        userName?: string | null;
         logo?: (number | null) | Media;
         media?: (number | null) | Media;
         enableLink?: boolean | null;
@@ -1293,6 +1294,7 @@ export interface ContentWithSliderBlockSelect<T extends boolean = true> {
     | T
     | {
         content?: T;
+        userName?: T;
         logo?: T;
         media?: T;
         enableLink?: T;

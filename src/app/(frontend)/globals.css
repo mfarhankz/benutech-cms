@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,7 +17,7 @@
 
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0, 0%, 8.5%;
 
     --card: 240 5% 96%;
     --card-foreground: 222.2 84% 4.9%;
@@ -51,7 +53,7 @@
 
   [data-theme='dark'] {
     --background: 0 0% 0%;
-    --foreground: 210 40% 98%;
+    --foreground: 0, 0%, 100%;
 
     --card: 0 0% 4%;
     --card-foreground: 210 40% 98%;
@@ -95,6 +97,22 @@
 
 html {
   opacity: 0;
+}
+
+/* Force white text for prose elements on dark backgrounds */
+.bg-slate-900 .prose p,
+.bg-slate-900 .prose h1,
+.bg-slate-900 .prose h2,
+.bg-slate-900 .prose h3,
+.bg-slate-900 .prose h4,
+.bg-slate-900 .prose h5,
+.bg-slate-900 .prose h6,
+.bg-slate-900 .prose strong,
+.bg-slate-900 .prose em,
+.bg-slate-900 .prose li,
+.bg-slate-900 .prose blockquote,
+.bg-slate-900 .prose a {
+  color: white !important;
 }
 
 html[data-theme='dark'],

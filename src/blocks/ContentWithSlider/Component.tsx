@@ -22,16 +22,16 @@ export const ContentWithSliderBlock: React.FC<ContentWithSliderBlockProps> = (pr
     <div
       className={cn('container-fluid', {
         'bg-slate-50': sliderType === 'onlyImage',
-        'bg-[#1c2431] !text-white': sliderType === 'onlyText',
+        'bg-slate-900': sliderType === 'onlyText',
         'bg-white': sliderType === 'both',
       })}
     >
-      <div className="container py-16 text-center">
+      <div className="container pt-16 pb-0 text-center">
         {heading && <RichText data={heading} enableGutter={false} />}
-        <Carousel className="w-full">
+        <Carousel className="w-full" opts={{ loop: true, align: 'start' }}>
           <CarouselContent>
             {columns?.map((col, index) => {
-              const { enableLink, media, content, textPosition, logo, link } = col
+              const { enableLink, media, content, textPosition, logo, link, userName } = col
               return (
                 <CarouselItem key={index}>
                   <div
@@ -49,7 +49,11 @@ export const ContentWithSliderBlock: React.FC<ContentWithSliderBlockProps> = (pr
                     >
                       {logo && <Media imgClassName={cn()} resource={logo} className="mb-5" />}
                       {content && <RichText data={content} enableGutter={false} />}
-
+                      {userName && sliderType === 'onlyText' && (
+                        <div className="text-lg font-light uppercase text-white mt-3 text-center">
+                          {userName}
+                        </div>
+                      )}
                       {enableLink && <CMSLink {...link} className="w-fit mt-4" />}
                     </div>
                     <div
