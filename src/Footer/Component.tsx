@@ -7,7 +7,7 @@ import { CMSLink } from '@/components/Link'
 import RichText from '@/components/RichText'
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer')()
+  const footerData: Footer = await getCachedGlobal('footer', 1)()
 
   const navItems = footerData?.navItems || []
   const footerText = footerData?.footerText
@@ -31,7 +31,7 @@ export async function Footer() {
             {/* <ThemeSelector /> */}
             <nav className="flex flex-col  md:flex-row gap-4">
               {navItems.map(({ link }, i) => {
-                return <CMSLink className="text-black" key={i} {...link} />
+                return <CMSLink className="text-slate-900 text-sm" key={i} {...link} />
               })}
             </nav>
             <p className="text-[12px] text-gray-800">
