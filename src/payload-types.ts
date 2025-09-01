@@ -1845,7 +1845,7 @@ export interface OurClient {
    * Select pages where this section should NOT appear
    */
   excludedPages?: (number | Page)[] | null;
-  content?: {
+  heading?: {
     root: {
       type: string;
       children: {
@@ -1860,27 +1860,12 @@ export interface OurClient {
     };
     [k: string]: unknown;
   } | null;
-  backgroundColor?: ('white' | 'light' | 'dark') | null;
-  backgroundImage?: (number | null) | Media;
-  enableCTA?: boolean | null;
-  ctaText?: string | null;
-  ctaLink?: {
-    link: {
-      type?: ('reference' | 'custom') | null;
-      newTab?: boolean | null;
-      reference?:
-        | ({
-            relationTo: 'pages';
-            value: number | Page;
-          } | null)
-        | ({
-            relationTo: 'posts';
-            value: number | Post;
-          } | null);
-      url?: string | null;
-      label: string;
-    };
-  };
+  columns?:
+    | {
+        logo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1940,23 +1925,12 @@ export interface OurClientsSelect<T extends boolean = true> {
   pageControl?: T;
   includedPages?: T;
   excludedPages?: T;
-  content?: T;
-  backgroundColor?: T;
-  backgroundImage?: T;
-  enableCTA?: T;
-  ctaText?: T;
-  ctaLink?:
+  heading?: T;
+  columns?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        logo?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

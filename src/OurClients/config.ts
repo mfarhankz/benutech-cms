@@ -1,12 +1,24 @@
 import type { GlobalConfig } from 'payload'
-
-import { link } from '@/fields/link'
-import { defaultLexical } from '@/fields/defaultLexical'
+import { revalidateOurClients } from './hooks/revalidateOurClients'
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
+import { Banner } from '../blocks/Banner/config'
+import { Code } from '../blocks/Code/config'
+import { MediaBlock } from '../blocks/MediaBlock/config'
 
 export const OurClients: GlobalConfig = {
   slug: 'ourClients',
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [revalidateOurClients],
   },
   fields: [
     {
@@ -63,69 +75,33 @@ export const OurClients: GlobalConfig = {
       },
     },
     {
-      name: 'content',
+      name: 'heading',
       type: 'richText',
-      ...defaultLexical,
-      admin: {
-        condition: (_, siblingData) => siblingData?.enabled,
-      },
-    },
-    {
-      name: 'backgroundColor',
-      type: 'select',
-      options: [
-        {
-          label: 'White',
-          value: 'white',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
+            BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+          ]
         },
-        {
-          label: 'Light Gray',
-          value: 'light',
-        },
-        {
-          label: 'Dark',
-          value: 'dark',
-        },
-      ],
-      defaultValue: 'white',
-      admin: {
-        condition: (_, siblingData) => siblingData?.enabled,
-      },
+      }),
+      label: 'Heading',
     },
     {
-      name: 'backgroundImage',
-      type: 'upload',
-      relationTo: 'media',
-      admin: {
-        condition: (_, siblingData) => siblingData?.enabled,
-      },
-    },
-    {
-      name: 'enableCTA',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        condition: (_, siblingData) => siblingData?.enabled,
-      },
-    },
-    {
-      name: 'ctaText',
-      type: 'text',
-      admin: {
-        condition: (_, siblingData) => siblingData?.enabled && siblingData?.enableCTA,
-      },
-    },
-    {
-      name: 'ctaLink',
-      type: 'group',
+      name: 'columns',
+      type: 'array',
+      label: 'Columns',
       fields: [
-        link({
-          appearances: false,
-        }),
+        {
+          name: 'logo',
+          type: 'upload',
+          relationTo: 'media',
+        },
       ],
-      admin: {
-        condition: (_, siblingData) => siblingData?.enabled && siblingData?.enableCTA,
-      },
     },
   ],
 }

@@ -8,7 +8,7 @@ import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
-import { OurClientsClient } from '@/globals/OurClients/OurClientsClient'
+import { OurClients } from '@/OurClients/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
           <Header />
           {children}
-          <OurClientsClient />
+          <OurClients />
           <Footer />
         </Providers>
       </body>
