@@ -41,12 +41,12 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText,
           <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
         )}
       </div>
-      <div className="flex justify-center items-center gap-10 absolute bottom-0 left-0 right-0 pt-8 bg-[#0f0f0f62]">
+      <div className="flex justify-center items-center gap-10 absolute bottom-0 left-0 right-0 pt-10 pb-4 bg-[#0f0f0f62]">
         {columns?.map((col, index) => {
           const { logos } = col
           return (
             <div key={index} className="w-[250px] flex justify-center items-center">
-              {logos && <Media imgClassName="w-auto h-auto" resource={logos} className="mb-5" />}
+              {logos && <Media imgClassName="w-auto h-[55px]" resource={logos} className="mb-5" />}
             </div>
           )
         })}

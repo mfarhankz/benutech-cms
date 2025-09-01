@@ -103,10 +103,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    ourClients: OurClient;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    ourClients: OurClientsSelect<false> | OurClientsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1783,6 +1785,21 @@ export interface Header {
  */
 export interface Footer {
   id: number;
+  footerText?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   navItems?:
     | {
         link: {
@@ -1803,6 +1820,67 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ourClients".
+ */
+export interface OurClient {
+  id: number;
+  /**
+   * Enable the our clients section
+   */
+  enabled?: boolean | null;
+  /**
+   * Choose which pages should display this section
+   */
+  pageControl?: ('all' | 'include' | 'exclude') | null;
+  /**
+   * Select pages where this section should appear
+   */
+  includedPages?: (number | Page)[] | null;
+  /**
+   * Select pages where this section should NOT appear
+   */
+  excludedPages?: (number | Page)[] | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  backgroundColor?: ('white' | 'light' | 'dark') | null;
+  backgroundImage?: (number | null) | Media;
+  enableCTA?: boolean | null;
+  ctaText?: string | null;
+  ctaLink?: {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: number | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1834,6 +1912,7 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  footerText?: T;
   navItems?:
     | T
     | {
@@ -1847,6 +1926,37 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ourClients_select".
+ */
+export interface OurClientsSelect<T extends boolean = true> {
+  enabled?: T;
+  pageControl?: T;
+  includedPages?: T;
+  excludedPages?: T;
+  content?: T;
+  backgroundColor?: T;
+  backgroundImage?: T;
+  enableCTA?: T;
+  ctaText?: T;
+  ctaLink?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

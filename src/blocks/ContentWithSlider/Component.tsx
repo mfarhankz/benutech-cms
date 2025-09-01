@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from '@/utilities/ui'
 import React from 'react'
 import RichText from '@/components/RichText'
@@ -7,8 +9,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from '@/components/ui/carousel'
+import Autoplay from 'embla-carousel-autoplay'
 
 import type { ContentWithSliderBlock as ContentWithSliderBlockProps } from '@/payload-types'
 
@@ -26,16 +28,24 @@ export const ContentWithSliderBlock: React.FC<ContentWithSliderBlockProps> = (pr
         'bg-white': sliderType === 'both',
       })}
     >
-      <div className="container pt-16 pb-0 text-center">
+      <div className="container pt-32 pb-32 text-center">
         {heading && <RichText data={heading} enableGutter={false} />}
-        <Carousel className="w-full" opts={{ loop: true, align: 'start' }}>
+        <Carousel
+          className="w-full"
+          opts={{ loop: true, align: 'start' }}
+          plugins={[
+            Autoplay({
+              delay: 3000,
+            }),
+          ]}
+        >
           <CarouselContent>
             {columns?.map((col, index) => {
               const { enableLink, media, content, textPosition, logo, link, userName } = col
               return (
                 <CarouselItem key={index}>
                   <div
-                    className={cn('grid gap-y-8 gap-x-16 py-12 px-20', {
+                    className={cn('grid gap-y-8 gap-x-16 pt-12 px-20', {
                       'grid-cols-2': sliderType === 'both',
                       'grid-cols-1': sliderType !== 'both',
                     })}
@@ -47,7 +57,7 @@ export const ContentWithSliderBlock: React.FC<ContentWithSliderBlockProps> = (pr
                       })}
                       key={`text-${index}`}
                     >
-                      {logo && <Media imgClassName={cn()} resource={logo} className="mb-5" />}
+                      {logo && <Media resource={logo} className="mb-5" />}
                       {content && <RichText data={content} enableGutter={false} />}
                       {userName && sliderType === 'onlyText' && (
                         <div className="text-lg font-light uppercase text-white mt-3 text-center">

@@ -17,12 +17,11 @@ export const ContentWithMediaBlock: React.FC<ContentWithMediaBlockProps> = (prop
         columns.map((col, index) => {
           const { enableLink, media, content, textPosition, logo, link } = col
           return (
-            <div className="grid grid-cols-2 gap-y-8 gap-x-16 py-12">
+            <div key={index} className="grid grid-cols-2 gap-y-8 gap-x-16 py-12">
               <div
                 className={cn('flex flex-col justify-center', {
                   'order-1': textPosition === 'right',
                 })}
-                key={index}
               >
                 {logo && <Media imgClassName={cn()} resource={logo} className="mb-5 w-[50%]" />}
                 {content && <RichText data={content} enableGutter={false} />}
@@ -33,7 +32,6 @@ export const ContentWithMediaBlock: React.FC<ContentWithMediaBlockProps> = (prop
                 className={cn({
                   'order-2': textPosition === 'left',
                 })}
-                key={index}
               >
                 {media && (
                   <Media

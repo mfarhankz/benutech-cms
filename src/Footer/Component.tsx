@@ -1,34 +1,45 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import Link from 'next/link'
 import React from 'react'
 
 import type { Footer } from '@/payload-types'
 
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
-import { Logo } from '@/components/Logo/Logo'
+import RichText from '@/components/RichText'
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)()
+  const footerData: Footer = await getCachedGlobal('footer')()
 
   const navItems = footerData?.navItems || []
+  const footerText = footerData?.footerText
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
-
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
-        </div>
+    <>
+      <div className="bg-slate-100">
+        {footerText && (
+          <div className="container py-12 gap-8">
+            <RichText className="max-w-[100%] mx-auto !text-sm" data={footerText} />
+          </div>
+        )}
       </div>
-    </footer>
+      <footer className="mt-auto">
+        <div className="container py-8 gap-8">
+          {/* <Link className="flex items-center" href="/">
+          <Logo />
+        </Link> */}
+
+          <div className="flex flex-col items-center gap-4">
+            {/* <ThemeSelector /> */}
+            <nav className="flex flex-col  md:flex-row gap-4">
+              {navItems.map(({ link }, i) => {
+                return <CMSLink className="text-black" key={i} {...link} />
+              })}
+            </nav>
+            <p className="text-[12px] text-gray-800">
+              ©2025 - Present, Benutech.com. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </>
   )
 }
