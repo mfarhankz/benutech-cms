@@ -46,27 +46,24 @@ export function OurClientsClient({ data }: OurClientsClientProps) {
   }
 
   return (
-    <section className={cn('py-16 relative')}>
+    <section className={cn('py-40 relative')}>
       <div className="container">
         <div className="max-w-4xl mx-auto text-center">
           {heading && <RichText data={heading} enableGutter={false} />}
         </div>
-
-        {columns && columns.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-            {columns.map((column, index) => (
-              <div key={index} className="relative">
-                {column.logo && (
-                  <Media
-                    resource={column.logo}
-                    imgClassName="w-full h-48 object-cover rounded-lg"
-                    className="w-full h-48"
-                  />
-                )}
+        <div className="flex justify-center items-center gap-14 pt-14">
+          {columns?.map((col, index) => {
+            const { logo } = col
+            return (
+              <div
+                key={index}
+                className="opacity-40 cursor-pointer hover:opacity-100 transition-opacity duration-300"
+              >
+                {logo && <Media resource={logo} />}
               </div>
-            ))}
-          </div>
-        )}
+            )
+          })}
+        </div>
       </div>
     </section>
   )
